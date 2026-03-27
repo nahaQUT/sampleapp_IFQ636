@@ -1,3 +1,6 @@
+// Online Podcast Manager - App Routes
+// Author: liperdio
+// IFN636 Assessment 1.2
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
