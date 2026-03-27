@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PodcastCard from '../components/TaskList';
+import PodcastCard from '../components/PodcastCard';
 
 const PodcastList = () => {
   const [podcasts, setPodcasts] = useState([]);

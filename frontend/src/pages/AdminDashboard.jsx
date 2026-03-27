@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PodcastCard from '../components/TaskList';
-import PodcastForm from '../components/TaskForm';
+import PodcastCard from '../components/PodcastCard';
+import PodcastForm from '../components/PodcastForm';
 
 const AdminDashboard = () => {
   const [podcasts, setPodcasts] = useState([]);

@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
-import PodcastList from './pages/Tasks';
+import PodcastList from './pages/PodcastList';
 import AdminDashboard from './pages/AdminDashboard';
 
 // Protected route component
