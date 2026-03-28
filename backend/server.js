@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/doctors', require('./routes/doctorRoutes'));
+app.use('/api/slots', require('./routes/slotRoutes'));
 //app.use('/api/tasks', require('./routes/taskRoutes'));
 
 // Export the app object for testing
