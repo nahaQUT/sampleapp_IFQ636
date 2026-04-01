@@ -10,10 +10,21 @@ import Profile from './pages/Profile';
 import PodcastList from './pages/PodcastList';
 import AdminDashboard from './pages/AdminDashboard';
 
-// Protected route component
+// Protected route - must be logged in
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" />;
+};
+
+// Admin route - must be logged in AND be admin
+const AdminRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  
+  if (!token) return <Navigate to="/login" />;
+  if (user.role !== 'admin') return <Navigate to="/podcasts" />;
+  
+  return children;
 };
 
 function App() {
@@ -25,7 +36,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected routes */}
+        {/* User routes */}
         <Route
           path="/"
           element={
@@ -42,14 +53,18 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Admin only routes */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <AdminDashboard />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
+
+        {/* Profile */}
         <Route
           path="/profile"
           element={
@@ -59,8 +74,8 @@ function App() {
           }
         />
 
-        {/* Catch all - redirect to home */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* Catch all */}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
