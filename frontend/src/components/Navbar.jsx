@@ -4,9 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const isAdmin = user.role === 'admin';
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
@@ -18,8 +21,14 @@ const Navbar = () => {
       <div style={styles.links}>
         {token ? (
           <>
+            {/* Show for all logged in users */}
             <Link to="/podcasts" style={styles.link}>Episodes</Link>
-            <Link to="/admin" style={styles.link}>Admin</Link>
+
+            {/* Show ONLY for admin */}
+            {isAdmin && (
+              <Link to="/admin" style={styles.link}>Admin</Link>
+            )}
+
             <Link to="/profile" style={styles.link}>Profile</Link>
             <button onClick={handleLogout} style={styles.logoutBtn}>
               Logout
@@ -50,7 +59,6 @@ const styles = {
     fontSize: '20px',
     fontWeight: '700',
     color: '#fff',
-    textDecoration: 'none',
   },
   links: {
     display: 'flex',
