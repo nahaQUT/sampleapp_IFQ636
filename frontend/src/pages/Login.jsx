@@ -34,7 +34,7 @@ const Login = () => {
         <div style={styles.brandText}>
           <h1 style={styles.podkas}>PODKAS</h1>
           <p style={styles.tagline}>Listen to your favorite pinoy podcast</p>
-          <p style={styles.taglineSub}>More than 100+ best tales ever</p>
+          <p style={styles.taglineSub}>More than 100+ best talks ever</p>
         </div>
         <img
           src="/headset.png"
