@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
 
-const Login = () => {
+const AdminLogin = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -12,12 +12,12 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axiosInstance.post('/api/auth/login', formData);
-      if (response.data.role === 'admin') {
-        alert('This is a customer login. Please use admin login.');
+      if (response.data.role !== 'admin') {
+        alert('You are not an admin.');
         return;
       }
-      login(response.data);
-      navigate('/shipment-history');
+      login({ ...response.data, isAdmin: true });
+      navigate('/admin/dashboard');
     } catch (error) {
       alert('Login failed. Please try again.');
     }
@@ -52,7 +52,7 @@ const Login = () => {
             />
             <div className="flex gap-4 pt-2">
               <Link
-                to="/register"
+                to="/admin/register"
                 className="flex-1 text-center py-2 border border-gray-300 bg-gray-100 text-gray-600 hover:bg-gray-200 transition"
               >
                 SignUp
@@ -66,8 +66,8 @@ const Login = () => {
             </div>
           </form>
 
-          <Link to="/admin" className="mt-16 text-gray-600 hover:underline">
-            I am admin
+          <Link to="/login" className="mt-16 text-gray-600 hover:underline">
+            I am Customer
           </Link>
         </div>
       </div>
@@ -75,4 +75,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

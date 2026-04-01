@@ -1,4 +1,6 @@
 // config/db.js
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 const mongoose = require("mongoose");
 
 // Set strictQuery explicitly to suppress the warning

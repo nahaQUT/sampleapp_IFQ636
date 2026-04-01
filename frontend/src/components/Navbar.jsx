@@ -1,40 +1,44 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
+  const linkClass = (path) =>
+    `px-3 py-1 text-sm ${location.pathname === path ? 'text-gray-900 font-semibold' : 'text-gray-600 hover:text-gray-900'}`;
+
   return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold">Your apps name</Link>
+    <nav className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center">
+      <div className="flex items-center space-x-8">
+        <Link to={user?.isAdmin ? '/admin/dashboard' : '/shipment-history'} className="flex items-center space-x-2">
+          <span className="text-xl font-bold text-gray-700">CMS</span>
+        </Link>
+        {user && (
+          <div className="flex items-center space-x-6">
+            <Link to="/create-shipment" className={linkClass('/create-shipment')}>Create Shipment</Link>
+            <Link to="/track-package" className={linkClass('/track-package')}>Track Package</Link>
+            <Link to="/shipment-history" className={linkClass('/shipment-history')}>Shipment History</Link>
+            {user.isAdmin && (
+              <Link to="/admin/packages" className={linkClass('/admin/packages')}>Manage Packages</Link>
+            )}
+          </div>
+        )}
+      </div>
       <div>
-        {user ? (
-          <>
-            <Link to="/tasks" className="mr-4">CRUD</Link>
-            <Link to="/profile" className="mr-4">Profile</Link>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="mr-4">Login</Link>
-            <Link
-              to="/register"
-              className="bg-green-500 px-4 py-2 rounded hover:bg-green-700"
-            >
-              Register
-            </Link>
-          </>
+        {user && (
+          <button
+            onClick={handleLogout}
+            className="text-sm text-gray-600 hover:text-gray-900"
+          >
+            Logout
+          </button>
         )}
       </div>
     </nav>

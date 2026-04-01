@@ -1,44 +1,43 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
 
-const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const { login } = useAuth();
+const AdminRegister = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post('/api/auth/login', formData);
-      if (response.data.role === 'admin') {
-        alert('This is a customer login. Please use admin login.');
-        return;
-      }
-      login(response.data);
-      navigate('/shipment-history');
+      await axiosInstance.post('/api/auth/register', { ...formData, role: 'admin' });
+      alert('Admin registration successful. Please log in.');
+      navigate('/admin');
     } catch (error) {
-      alert('Login failed. Please try again.');
+      alert('Registration failed. Please try again.');
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400">
       <div className="w-full max-w-5xl mx-4 flex items-center justify-between">
-        {/* Left - Title */}
         <div className="flex-1">
           <h1 className="text-7xl font-bold text-gray-500/70 leading-tight tracking-wide">
             Courier<br />Management<br />System
           </h1>
         </div>
 
-        {/* Right - Login Form */}
         <div className="flex-1 flex flex-col items-end">
           <form onSubmit={handleSubmit} className="w-80 space-y-4">
             <input
+              type="text"
+              placeholder="Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full p-3 border border-gray-300 bg-white text-gray-700 placeholder-gray-400"
+            />
+            <input
               type="email"
-              placeholder="Username"
+              placeholder="Email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="w-full p-3 border border-gray-300 bg-white text-gray-700 placeholder-gray-400"
@@ -50,24 +49,16 @@ const Login = () => {
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               className="w-full p-3 border border-gray-300 bg-white text-gray-700 placeholder-gray-400"
             />
-            <div className="flex gap-4 pt-2">
-              <Link
-                to="/register"
-                className="flex-1 text-center py-2 border border-gray-300 bg-gray-100 text-gray-600 hover:bg-gray-200 transition"
-              >
-                SignUp
-              </Link>
-              <button
-                type="submit"
-                className="flex-1 py-2 border border-gray-300 bg-gray-100 text-gray-600 hover:bg-gray-200 transition"
-              >
-                Login
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full py-2 border border-gray-300 bg-gray-100 text-gray-600 hover:bg-gray-200 transition"
+            >
+              Register as Admin
+            </button>
           </form>
 
-          <Link to="/admin" className="mt-16 text-gray-600 hover:underline">
-            I am admin
+          <Link to="/admin" className="mt-8 text-gray-600 hover:underline">
+            Back to Admin Login
           </Link>
         </div>
       </div>
@@ -75,4 +66,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminRegister;
