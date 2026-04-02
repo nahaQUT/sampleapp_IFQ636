@@ -7,9 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  # ─────────────────────────────────
-  # JOB 1: CI - Install & Test
-  # ─────────────────────────────────
+  # CI - Build and Test
   build:
     name: CI - Build and Test
     runs-on: ubuntu-latest
@@ -24,23 +22,15 @@ jobs:
           node-version: '18'
 
       - name: Install backend dependencies
-        run: |
-          cd backend
-          npm install
+        run: cd backend && npm install
 
       - name: Install frontend dependencies
-        run: |
-          cd frontend
-          npm install
+        run: cd frontend && npm install
 
       - name: Build frontend
-        run: |
-          cd frontend
-          npm run build
+        run: cd frontend && npm run build
 
-  # ─────────────────────────────────
-  # JOB 2: CD - Deploy to EC2
-  # ─────────────────────────────────
+  # CD - Deploy to EC2
   deploy:
     name: CD - Deploy to EC2
     runs-on: ubuntu-latest
@@ -67,37 +57,3 @@ jobs:
             npm run build
             pm2 restart backend || pm2 start backend/server.js --name backend
             pm2 save
-```
-
----
-
-### Save the file `Ctrl + S`
-
----
-
-### Now add GitHub Secrets:
-
-These are the EC2 credentials GitHub needs to SSH into your server.
-
-1. Go to `github.com/liperdio/sampleapp_IFQ636`
-2. Click **"Settings"** tab
-3. Click **"Secrets and variables"** → **"Actions"**
-4. Click **"New repository secret"**
-
-Add these 3 secrets one by one:
-
-| Secret Name | Value |
-|---|---|
-| `EC2_HOST` | Your EC2 public IP address |
-| `EC2_USER` | `ubuntu` |
-| `EC2_KEY` | Your EC2 private key (.pem file contents) |
-
----
-
-### To get your EC2_KEY value:
-
-Open your `.pem` file in VS Code or Notepad and copy **everything** including:
-```
------BEGIN RSA PRIVATE KEY-----
-...
------END RSA PRIVATE KEY-----
