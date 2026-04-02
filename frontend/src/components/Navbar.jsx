@@ -1,44 +1,85 @@
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const isAdmin = user.role === 'admin';
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
   return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold">Your apps name</Link>
-      <div>
-        {user ? (
+    <nav style={styles.nav}>
+      <div style={styles.brand}>
+        🎙️ Podcast Manager
+      </div>
+      <div style={styles.links}>
+        {token ? (
           <>
-            <Link to="/tasks" className="mr-4">CRUD</Link>
-            <Link to="/profile" className="mr-4">Profile</Link>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"
-            >
+            {/* Show for all logged in users */}
+            <Link to="/podcasts" style={styles.link}>Episodes</Link>
+
+            {/* Show ONLY for admin */}
+            {isAdmin && (
+              <Link to="/admin" style={styles.link}>Admin</Link>
+            )}
+
+            <Link to="/profile" style={styles.link}>Profile</Link>
+            <button onClick={handleLogout} style={styles.logoutBtn}>
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="mr-4">Login</Link>
-            <Link
-              to="/register"
-              className="bg-green-500 px-4 py-2 rounded hover:bg-green-700"
-            >
-              Register
-            </Link>
+            <Link to="/login" style={styles.link}>Login</Link>
+            <Link to="/register" style={styles.link}>Register</Link>
           </>
         )}
       </div>
     </nav>
   );
+};
+
+const styles = {
+  nav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '16px 32px',
+    background: '#6c63ff',
+    color: '#fff',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+  },
+  brand: {
+    fontSize: '20px',
+    fontWeight: '700',
+    color: '#fff',
+  },
+  links: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '20px',
+  },
+  link: {
+    color: '#fff',
+    textDecoration: 'none',
+    fontSize: '15px',
+    fontWeight: '500',
+  },
+  logoutBtn: {
+    padding: '8px 18px',
+    background: 'transparent',
+    color: '#fff',
+    border: '1px solid #fff',
+    borderRadius: '6px',
+    fontSize: '14px',
+    cursor: 'pointer',
+  },
 };
 
 export default Navbar;

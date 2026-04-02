@@ -1,24 +1,137 @@
-
-**Assessment 1.2 (Total Marks **20**)**
-
-Assignment: **Software requirements analysis and design (**Full-Stack CRUD Application Development with DevOps Practices**)**
-
-
----
-
-**Objective**
-
-For this assessment, you have already been assigned a project. Your task is to develop a system that implements CRUD (Create, Read, Update, Delete) operations based on the selected project. The system should include both a user panel and an admin panel. Depending on the nature of your chosen project, you may decide how many CRUD operations are required to support the functionality of the system. You have been provided with a starter project that includes user authentication using Node.js, React.js, and MongoDB, your should extend this application based on your assigned project requirements. Ensure that the implemented features are appropriate and meaningful for your selected project. Your project should include the following:
-In this assignment you will complete the following tasks:
-
-* **Basic Version Control using GitHub**
-* **Development, CI/CD Integration for Automated Deployment**
-* **Project report**
-
- 
----
-
-**GitHub link of the starter project: **[https://github.com/nahaQUT/sampleapp_IFQ636.git](https://github.com/nahaQUT/sampleapp_IFQ636.git)
+# 🎙️ Online Podcast Manager
+### IFN636 - Software Life Cycle Management | Assessment 1.2
+**Student:** Lejan Daniel I. Perdio
+**Student ID:** 12691429
 
 ---
 
+## 📌 Project Overview
+
+An Online Podcast Manager built with the MERN stack (MongoDB, Express, React, Node.js).
+The system supports core functionalities such as creating, viewing, updating, and deleting
+podcast episodes through an administrative interface, while allowing users to browse,
+search, and play podcast content.
+
+---
+
+## 🚀 Features
+
+- ✅ User Authentication (Register, Login, Logout)
+- ✅ Create, Read, Update, Delete podcast episodes
+- ✅ Category management
+- ✅ Audio playback
+- ✅ Search and filter episodes
+- ✅ Admin dashboard
+- ✅ CI/CD pipeline with GitHub Actions
+- ✅ Deployed on AWS EC2
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React.js |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| Auth | JWT (JSON Web Tokens) |
+| Deployment | AWS EC2 |
+| CI/CD | GitHub Actions |
+
+---
+
+## ⚙️ Project Setup Instructions
+
+### Prerequisites
+- Node.js v18+
+- MongoDB Atlas account
+- Git
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/liperdio/sampleapp_IFQ636.git
+cd sampleapp_IFQ636
+```
+
+### 2. Setup Backend
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file inside `backend/`:
+```
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+PORT=5000
+```
+
+Start the backend:
+```bash
+npm start
+```
+
+### 3. Setup Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+
+### 4. Open the app
+```
+http://localhost:3000
+```
+
+---
+
+## 🌐 Public URL
+```
+http://YOUR_EC2_IP_ADDRESS
+```
+*(To be updated after EC2 deployment)*
+
+---
+
+## 🔑 Test Credentials
+
+| Role | Username | Password |
+|---|---|---|
+| Admin | admin@podcast.com | Admin1234! |
+| User | user@podcast.com | User1234! |
+
+---
+
+## 🔗 GitHub Repository
+```
+https://github.com/liperdio/sampleapp_IFQ636
+```
+
+---
+
+## 📦 Branch Structure
+
+| Branch | Purpose |
+|---|---|
+| `main` | Production ready code |
+| `feature/podcast-model` | MongoDB models |
+| `feature/category-model` | Category model |
+| `feature/podcast-backend-api` | Backend API routes |
+| `feature/podcast-frontend-crud` | Frontend pages |
+| `feature/audio-playback` | Audio player |
+| `feature/cicd-pipeline` | CI/CD pipeline |
+
+---
+
+## 🔄 CI/CD Pipeline
+
+- **CI** — Runs on every push: installs dependencies and builds frontend
+- **CD** — Runs on merge to main: deploys to AWS EC2 via SSH
+
+---
+
+## 📚 References
+
+- Bonini, T. (2015). The second age of podcasting. *Quaderns del CAC*, 18(41), 21–30.
+- Sullivan, J. L. (2019). The platforms of podcasting. *Social Media + Society*, 5(4).
+- Sommerville, I. (2016). *Software engineering* (10th ed.). Pearson.
