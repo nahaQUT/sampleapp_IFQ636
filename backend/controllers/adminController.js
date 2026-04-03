@@ -1,5 +1,5 @@
-const User = require('../models/User');
 const Habit = require('../models/Habit');
+const User = require('../models/User');
 
 const getAllUsers = async (req, res) => {
   try {
@@ -14,6 +14,7 @@ const getAllHabits = async (req, res) => {
   try {
     const habits = await Habit.find()
       .populate('user', 'name email role')
+      .populate('category', 'name description')
       .sort({ createdAt: -1 });
 
     return res.status(200).json(habits);
@@ -24,7 +25,9 @@ const getAllHabits = async (req, res) => {
 
 const getHabitByIdForAdmin = async (req, res) => {
   try {
-    const habit = await Habit.findById(req.params.id).populate('user', 'name email role');
+    const habit = await Habit.findById(req.params.id)
+      .populate('user', 'name email role')
+      .populate('category', 'name description');
 
     if (!habit) {
       return res.status(404).json({ message: 'Habit not found' });
