@@ -5,6 +5,13 @@ import PageHeader from '../components/PageHeader';
 import HabitForm from '../components/HabitForm';
 import HabitList from '../components/HabitList';
 
+const getLocalDateString = (date = new Date()) => {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const Habits = () => {
   const [habits, setHabits] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -15,7 +22,7 @@ const Habits = () => {
   const [editingHabit, setEditingHabit] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  const todayDate = new Date().toISOString().split('T')[0];
+  const todayDate = getLocalDateString();
 
   const fetchHabits = async () => {
     setLoadingHabits(true);
@@ -56,6 +63,14 @@ const Habits = () => {
   };
 
   const handleEdit = (habit) => {
+    const isCompletedToday = habit.completionHistory?.some((item) => item.date === todayDate);
+
+    if (isCompletedToday) {
+      setError('Completed habits cannot be edited today.');
+      setSuccessMessage('');
+      return;
+    }
+
     setEditingHabit(habit);
     setShowForm(true);
     setError('');
@@ -63,6 +78,14 @@ const Habits = () => {
   };
 
   const handleDelete = async (habit) => {
+    const isCompletedToday = habit.completionHistory?.some((item) => item.date === todayDate);
+
+    if (isCompletedToday) {
+      setError('Completed habits cannot be deleted today.');
+      setSuccessMessage('');
+      return;
+    }
+
     const confirmed = window.confirm(`Delete "${habit.title}"?`);
     if (!confirmed) return;
 

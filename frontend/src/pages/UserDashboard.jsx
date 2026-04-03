@@ -6,14 +6,21 @@ import SummaryCards from '../components/SummaryCards';
 
 const dayKeys = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+const getLocalDateString = (date = new Date()) => {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const UserDashboard = () => {
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const today = new Date();
-  const todayDate = today.toISOString().split('T')[0];
-  const todayKey = dayKeys[today.getDay()];
+  const now = new Date();
+  const todayDate = getLocalDateString(now);
+  const todayKey = dayKeys[now.getDay()];
 
   useEffect(() => {
     const fetchHabits = async () => {
@@ -49,10 +56,10 @@ const UserDashboard = () => {
     if (uniqueDates.length === 0) return 0;
 
     let streak = 0;
-    let cursor = new Date();
+    const cursor = new Date();
 
     while (true) {
-      const cursorDate = cursor.toISOString().split('T')[0];
+      const cursorDate = getLocalDateString(cursor);
 
       if (uniqueDates.includes(cursorDate)) {
         streak += 1;
@@ -73,9 +80,9 @@ const UserDashboard = () => {
 
   const todayHabits = useMemo(() => {
     return habits.filter((habit) => {
-      const startDate = habit.startDate ? new Date(habit.startDate) : null;
+      const startDate = habit.startDate ? getLocalDateString(new Date(habit.startDate)) : null;
 
-      if (startDate && startDate > today) {
+      if (startDate && startDate > todayDate) {
         return false;
       }
 
@@ -89,7 +96,7 @@ const UserDashboard = () => {
 
       return false;
     });
-  }, [habits, today, todayKey]);
+  }, [habits, todayDate, todayKey]);
 
   const recentCompletionHistory = useMemo(() => {
     return habits

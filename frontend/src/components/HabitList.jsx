@@ -77,7 +77,11 @@ const HabitList = ({
                   type="button"
                   onClick={() => onComplete(habit)}
                   disabled={completedToday}
-                  className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60"
+                  className={`rounded-xl px-4 py-2 text-sm font-medium transition ${
+                    completedToday
+                      ? 'cursor-not-allowed bg-emerald-100 text-emerald-700'
+                      : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                  }`}
                 >
                   {completedToday ? 'Completed' : 'Complete'}
                 </button>
@@ -85,7 +89,12 @@ const HabitList = ({
                 <button
                   type="button"
                   onClick={() => onEdit(habit)}
-                  className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                  disabled={completedToday}
+                  className={`rounded-xl px-4 py-2 text-sm font-medium transition ${
+                    completedToday
+                      ? 'cursor-not-allowed bg-slate-200 text-slate-400'
+                      : 'border border-slate-300 text-slate-700 hover:bg-slate-50'
+                  }`}
                 >
                   Edit
                 </button>
@@ -93,7 +102,12 @@ const HabitList = ({
                 <button
                   type="button"
                   onClick={() => onDelete(habit)}
-                  className="rounded-xl border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                  disabled={completedToday}
+                  className={`rounded-xl px-4 py-2 text-sm font-medium transition ${
+                    completedToday
+                      ? 'cursor-not-allowed bg-slate-200 text-slate-400'
+                      : 'border border-red-200 text-red-600 hover:bg-red-50'
+                  }`}
                 >
                   Delete
                 </button>
