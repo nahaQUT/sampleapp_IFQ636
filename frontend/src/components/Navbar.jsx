@@ -11,35 +11,45 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-            <Link to="/" className="text-2xl font-bold">Resource Sharing Platform</Link>
-            <div>
+        <nav className="bg-black text-white px-8 py-4 flex justify-between items-center shadow-lg">
+            <Link to="/" className="text-2xl font-bold tracking-widest uppercase">
+                LearnShare
+            </Link>
+            <div className="flex items-center gap-4">
                 {user ? (
                     <>
-                        <Link to="/resources" className="mr-4">Resources</Link>
-
-                        {/* Only show Dashboard link for admin */}
+                        <Link to="/resources" className="text-sm uppercase tracking-wider hover:text-gray-300">
+                            Resources
+                        </Link>
                         {user.role === 'admin' && (
-                            <Link to="/admin" className="mr-4 bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600">
+                            <Link
+                                to="/admin"
+                                className="text-sm uppercase tracking-wider border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition"
+                            >
                                 Dashboard
                             </Link>
                         )}
-
-                        <Link to="/profile" className="mr-4">Profile</Link>
+                        <Link to="/profile" className="text-sm uppercase tracking-wider hover:text-gray-300">
+                            Profile
+                        </Link>
                         <button
                             onClick={handleLogout}
-                            className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"
+                            className="text-sm uppercase tracking-wider bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition"
                         >
                             Logout
                         </button>
                     </>
                 ) : (
                     <>
-                        <Link to="/resources" className="mr-4">Resources</Link>
-                        <Link to="/login" className="mr-4">Login</Link>
+                        <Link to="/resources" className="text-sm uppercase tracking-wider hover:text-gray-300">
+                            Resources
+                        </Link>
+                        <Link to="/login" className="text-sm uppercase tracking-wider hover:text-gray-300">
+                            Login
+                        </Link>
                         <Link
                             to="/register"
-                            className="bg-green-500 px-4 py-2 rounded hover:bg-green-700"
+                            className="text-sm uppercase tracking-wider bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition"
                         >
                             Register
                         </Link>

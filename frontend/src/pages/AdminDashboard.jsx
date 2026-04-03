@@ -10,7 +10,6 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Redirect if not admin
         if (!user || user.role !== 'admin') {
             navigate('/resources');
             return;
@@ -33,7 +32,7 @@ const AdminDashboard = () => {
     }, [user, navigate]);
 
     const handleDeleteUser = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this user?')) return;
+        if (!window.confirm('Delete this user?')) return;
         try {
             await axiosInstance.delete(`/api/admin/users/${id}`, {
                 headers: { Authorization: `Bearer ${user.token}` }
@@ -48,79 +47,105 @@ const AdminDashboard = () => {
         }
     };
 
-    if (loading) return <p className="text-center mt-20">Loading dashboard...</p>;
+    if (loading) return (
+        <div className="min-h-screen flex items-center justify-center">
+            <p className="text-gray-400 uppercase tracking-widest text-sm animate-pulse">
+                Loading Dashboard...
+            </p>
+        </div>
+    );
 
     return (
-        <div className="container mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+        <div className="min-h-screen bg-gray-100">
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-6 mb-10">
-                <div className="bg-blue-600 text-white p-6 rounded shadow text-center">
-                    <p className="text-5xl font-bold">{stats.totalUsers}</p>
-                    <p className="text-xl mt-2">Total Users</p>
-                </div>
-                <div className="bg-green-600 text-white p-6 rounded shadow text-center">
-                    <p className="text-5xl font-bold">{stats.totalResources}</p>
-                    <p className="text-xl mt-2">Total Resources</p>
-                </div>
+            {/* Header */}
+            <div className="bg-black text-white px-8 py-10">
+                <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">Admin Panel</p>
+                <h1 className="text-4xl font-bold uppercase tracking-widest">Dashboard</h1>
+                <p className="text-gray-400 text-sm mt-2">Welcome back, {user?.name}</p>
             </div>
 
-            {/* Recent Resources */}
-            <div className="mb-10">
-                <h2 className="text-2xl font-bold mb-4">Recent Resources</h2>
-                {stats.recentResources.length === 0 ? (
-                    <p className="text-gray-500">No resources yet.</p>
-                ) : (
-                    stats.recentResources.map((resource) => (
-                        <div key={resource._id} className="bg-white p-4 shadow rounded mb-3">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <p className="font-bold">{resource.title}</p>
-                                    <p className="text-sm text-gray-500">
+            <div className="max-w-5xl mx-auto px-6 py-10">
+
+                {/* Stats Cards */}
+                <div className="grid grid-cols-2 gap-6 mb-12">
+                    <div className="bg-white rounded-lg shadow p-8 border-l-4 border-black">
+                        <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">Total Users</p>
+                        <p className="text-6xl font-bold">{stats.totalUsers}</p>
+                    </div>
+                    <div className="bg-black text-white rounded-lg shadow p-8">
+                        <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">Total Resources</p>
+                        <p className="text-6xl font-bold">{stats.totalResources}</p>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8">
+
+                    {/* Recent Resources */}
+                    <div>
+                        <h2 className="text-sm font-bold uppercase tracking-widest mb-4 border-b pb-2">
+                            Recent Resources
+                        </h2>
+                        {stats.recentResources.length === 0 ? (
+                            <p className="text-gray-400 text-sm">No resources yet.</p>
+                        ) : (
+                            stats.recentResources.map((resource) => (
+                                <div key={resource._id} className="bg-white rounded-lg p-4 shadow mb-3 border border-gray-100">
+                                    <p className="font-bold text-sm">{resource.title}</p>
+                                    <p className="text-xs text-gray-400 mt-1">
                                         {resource.subject} • {resource.category}
                                     </p>
-                                    <p className="text-xs text-gray-400">
+                                    <p className="text-xs text-gray-400 mt-1">
                                         By: {resource.createdBy?.name || 'Unknown'}
                                     </p>
+                                    <p className="text-xs text-gray-300 mt-1">
+                                        {new Date(resource.createdAt).toLocaleDateString()}
+                                    </p>
                                 </div>
-                                <p className="text-xs text-gray-400">
-                                    {new Date(resource.createdAt).toLocaleDateString()}
-                                </p>
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                            ))
+                        )}
+                    </div>
 
-            {/* Recent Users */}
-            <div>
-                <h2 className="text-2xl font-bold mb-4">Recent Users</h2>
-                {stats.recentUsers.length === 0 ? (
-                    <p className="text-gray-500">No users yet.</p>
-                ) : (
-                    stats.recentUsers.map((u) => (
-                        <div key={u._id} className="bg-white p-4 shadow rounded mb-3">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <p className="font-bold">{u.name}</p>
-                                    <p className="text-sm text-gray-500">{u.email}</p>
-                                    <span className={`text-xs px-2 py-1 rounded ${u.role === 'admin' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
-                                        {u.role}
-                                    </span>
+                    {/* Recent Users */}
+                    <div>
+                        <h2 className="text-sm font-bold uppercase tracking-widest mb-4 border-b pb-2">
+                            Recent Users
+                        </h2>
+                        {stats.recentUsers.length === 0 ? (
+                            <p className="text-gray-400 text-sm">No users yet.</p>
+                        ) : (
+                            stats.recentUsers.map((u) => (
+                                <div key={u._id} className="bg-white rounded-lg p-4 shadow mb-3 border border-gray-100">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-9 h-9 bg-black text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                                {u.name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-sm">{u.name}</p>
+                                                <p className="text-xs text-gray-400">{u.email}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                      <span className={`text-xs px-2 py-1 rounded-full uppercase tracking-wider font-medium ${u.role === 'admin' ? 'bg-black text-white' : 'bg-gray-100 text-gray-600'}`}>
+                        {u.role}
+                      </span>
+                                            {u.role !== 'admin' && (
+                                                <button
+                                                    onClick={() => handleDeleteUser(u._id)}
+                                                    className="text-xs bg-gray-100 text-black px-2 py-1 rounded hover:bg-black hover:text-white transition"
+                                                >
+                                                    ✕
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                                {u.role !== 'admin' && (
-                                    <button
-                                        onClick={() => handleDeleteUser(u._id)}
-                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
-                                    >
-                                        Delete User
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    ))
-                )}
+                            ))
+                        )}
+                    </div>
+
+                </div>
             </div>
         </div>
     );

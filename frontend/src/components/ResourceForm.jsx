@@ -5,14 +5,9 @@ import axiosInstance from '../axiosConfig';
 const ResourceForm = ({ resources, setResources, editingResource, setEditingResource }) => {
     const { user } = useAuth();
     const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        subject: '',
-        url: '',
-        category: 'other'
+        title: '', description: '', subject: '', url: '', category: 'other'
     });
 
-    // When editing, fill the form with existing data
     useEffect(() => {
         if (editingResource) {
             setFormData({
@@ -23,13 +18,7 @@ const ResourceForm = ({ resources, setResources, editingResource, setEditingReso
                 category: editingResource.category
             });
         } else {
-            setFormData({
-                title: '',
-                description: '',
-                subject: '',
-                url: '',
-                category: 'other'
-            });
+            setFormData({ title: '', description: '', subject: '', url: '', category: 'other' });
         }
     }, [editingResource]);
 
@@ -37,7 +26,6 @@ const ResourceForm = ({ resources, setResources, editingResource, setEditingReso
         e.preventDefault();
         try {
             if (editingResource) {
-                // UPDATE existing resource
                 const response = await axiosInstance.put(
                     `/api/resources/${editingResource._id}`,
                     formData,
@@ -47,7 +35,6 @@ const ResourceForm = ({ resources, setResources, editingResource, setEditingReso
                     r._id === response.data._id ? response.data : r
                 ));
             } else {
-                // CREATE new resource
                 const response = await axiosInstance.post(
                     '/api/resources',
                     formData,
@@ -55,94 +42,91 @@ const ResourceForm = ({ resources, setResources, editingResource, setEditingReso
                 );
                 setResources([response.data, ...resources]);
             }
-
-            // Reset form
             setEditingResource(null);
-            setFormData({
-                title: '',
-                description: '',
-                subject: '',
-                url: '',
-                category: 'other'
-            });
-
+            setFormData({ title: '', description: '', subject: '', url: '', category: 'other' });
         } catch (error) {
             alert('Failed to save resource.');
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded mb-6">
-            <h1 className="text-2xl font-bold mb-4">
-                {editingResource ? 'Edit Resource' : 'Share a New Resource'}
-            </h1>
+        <div className="bg-white shadow-xl rounded-lg p-8 mb-8 border-l-4 border-black">
+            <h2 className="text-xl font-bold uppercase tracking-widest mb-6">
+                {editingResource ? '✏️ Edit Resource' : '+ Share a Resource'}
+            </h2>
 
-            <input
-                type="text"
-                placeholder="Title"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full mb-4 p-2 border rounded"
-                required
-            />
+            <form onSubmit={handleSubmit}>
+                <label className="block text-xs font-bold uppercase tracking-wider mb-1">Title</label>
+                <input
+                    type="text"
+                    placeholder="Resource title"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    className="w-full mb-4 p-3 border border-gray-300 rounded focus:outline-none focus:border-black"
+                    required
+                />
 
-            <textarea
-                placeholder="Description"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full mb-4 p-2 border rounded"
-                rows={3}
-                required
-            />
+                <label className="block text-xs font-bold uppercase tracking-wider mb-1">Description</label>
+                <textarea
+                    placeholder="What is this resource about?"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="w-full mb-4 p-3 border border-gray-300 rounded focus:outline-none focus:border-black"
+                    rows={3}
+                    required
+                />
 
-            <input
-                type="text"
-                placeholder="Subject (e.g. Mathematics, Science)"
-                value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full mb-4 p-2 border rounded"
-                required
-            />
+                <label className="block text-xs font-bold uppercase tracking-wider mb-1">Subject</label>
+                <input
+                    type="text"
+                    placeholder="e.g. Mathematics, Computer Science"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full mb-4 p-3 border border-gray-300 rounded focus:outline-none focus:border-black"
+                    required
+                />
 
-            <input
-                type="url"
-                placeholder="Resource Link (optional)"
-                value={formData.url}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                className="w-full mb-4 p-2 border rounded"
-            />
+                <label className="block text-xs font-bold uppercase tracking-wider mb-1">Link (optional)</label>
+                <input
+                    type="url"
+                    placeholder="https://..."
+                    value={formData.url}
+                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                    className="w-full mb-4 p-3 border border-gray-300 rounded focus:outline-none focus:border-black"
+                />
 
-            <select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full mb-4 p-2 border rounded"
-            >
-                <option value="article">Article</option>
-                <option value="video">Video</option>
-                <option value="book">Book</option>
-                <option value="course">Course</option>
-                <option value="other">Other</option>
-            </select>
-
-            <div className="flex gap-2">
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                <label className="block text-xs font-bold uppercase tracking-wider mb-1">Category</label>
+                <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full mb-6 p-3 border border-gray-300 rounded focus:outline-none focus:border-black"
                 >
-                    {editingResource ? 'Update Resource' : 'Share Resource'}
-                </button>
+                    <option value="article">Article</option>
+                    <option value="video">Video</option>
+                    <option value="book">Book</option>
+                    <option value="course">Course</option>
+                    <option value="other">Other</option>
+                </select>
 
-                {editingResource && (
+                <div className="flex gap-3">
                     <button
-                        type="button"
-                        onClick={() => setEditingResource(null)}
-                        className="w-full bg-gray-400 text-white p-2 rounded hover:bg-gray-500"
+                        type="submit"
+                        className="flex-1 bg-black text-white p-3 rounded uppercase tracking-widest font-bold hover:bg-gray-800 transition"
                     >
-                        Cancel
+                        {editingResource ? 'Update' : 'Share'}
                     </button>
-                )}
-            </div>
-        </form>
+                    {editingResource && (
+                        <button
+                            type="button"
+                            onClick={() => setEditingResource(null)}
+                            className="flex-1 bg-gray-200 text-black p-3 rounded uppercase tracking-widest font-bold hover:bg-gray-300 transition"
+                        >
+                            Cancel
+                        </button>
+                    )}
+                </div>
+            </form>
+        </div>
     );
 };
 
