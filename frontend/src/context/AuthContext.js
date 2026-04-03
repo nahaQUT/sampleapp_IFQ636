@@ -4,18 +4,26 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
 
-    if (savedUser) {
+    if (savedUser && token) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsedUser = JSON.parse(savedUser);
+        setUser({ ...parsedUser, token });
       } catch {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
       }
+    } else {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     }
+
+    setLoading(false);
   }, []);
 
   const login = (userData) => {
@@ -35,17 +43,21 @@ export const AuthProvider = ({ children }) => {
     const mergedUser = token ? { ...updatedUser, token } : updatedUser;
     setUser(mergedUser);
     localStorage.setItem('user', JSON.stringify(mergedUser));
+    if (token) {
+      localStorage.setItem('token', token);
+    }
   };
 
   const value = useMemo(
     () => ({
       user,
+      loading,
       login,
       logout,
       updateUser,
       isAuthenticated: !!user,
     }),
-    [user]
+    [user, loading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

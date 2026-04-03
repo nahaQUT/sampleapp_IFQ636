@@ -14,7 +14,9 @@ import { useAuth } from './context/AuthContext';
 import './App.css';
 
 function AppRoutes() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
+
+  if (loading) return null;
 
   return (
     <Routes>
