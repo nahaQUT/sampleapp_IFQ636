@@ -4,7 +4,7 @@ const completionSchema = new mongoose.Schema(
   {
     date: {
       type: String,
-      required: true, // YYYY-MM-DD
+      required: true,
     },
     completedAt: {
       type: Date,
@@ -32,9 +32,9 @@ const habitSchema = new mongoose.Schema(
       trim: true,
     },
     category: {
-      type: String,
-      default: 'General',
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true,
     },
     frequency: {
       type: String,
