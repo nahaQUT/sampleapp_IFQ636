@@ -15,7 +15,12 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axiosInstance.post('/api/auth/login', formData);
+      const payload = {
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      };
+
+      const response = await axiosInstance.post('/api/auth/login', payload);
       login(response.data);
 
       if (response.data.role === 'admin') {
