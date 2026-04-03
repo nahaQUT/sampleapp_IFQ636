@@ -12,14 +12,12 @@ const buildUserResponse = (user) => {
     name: user.name,
     email: user.email,
     role: user.role,
-    university: user.university,
-    address: user.address,
     token: generateToken(user._id),
   };
 };
 
 const registerUser = async (req, res) => {
-  const { name, email, password, university, address } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -32,8 +30,6 @@ const registerUser = async (req, res) => {
       name,
       email,
       password,
-      university,
-      address,
     });
 
     return res.status(201).json(buildUserResponse(user));
@@ -71,8 +67,6 @@ const getProfile = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      university: user.university,
-      address: user.address,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -87,12 +81,10 @@ const updateUserProfile = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const { name, email, university, address, password } = req.body;
+    const { name, email, password } = req.body;
 
     user.name = name || user.name;
     user.email = email || user.email;
-    user.university = university || user.university;
-    user.address = address || user.address;
 
     if (password) {
       user.password = password;
