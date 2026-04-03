@@ -24,6 +24,11 @@ const resourceSchema = new mongoose.Schema({
         type: String,
         enum: ['article', 'video', 'book', 'course', 'other'],
         default: 'other'
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, { timestamps: true });
 
