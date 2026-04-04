@@ -65,11 +65,4 @@ jobs:
       - name: Create .env File
         working-directory: ./backend
         run: |
-          touch .env
           echo "${{ secrets.PROD }}" > .env
-
-      - name: Start Services
-        run: pm2 start all || pm2 restart all
-
-      - name: Restart Services
-        run: pm2 restart all
