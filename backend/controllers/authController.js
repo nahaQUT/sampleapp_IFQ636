@@ -20,7 +20,8 @@ const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    const userExists = await User.findOne({ email });
+    const normalizedEmail = email.trim().toLowerCase();
+    const userExists = await User.findOne({ email: normalizedEmail });
 
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -28,7 +29,7 @@ const registerUser = async (req, res) => {
 
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password,
     });
 
@@ -42,7 +43,8 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       return res.status(200).json(buildUserResponse(user));
@@ -84,7 +86,9 @@ const updateUserProfile = async (req, res) => {
     const { name, email, password } = req.body;
 
     user.name = name || user.name;
-    user.email = email || user.email;
+
+    user.email = email ? email.trim().toLowerCase() : user.email;
+    
 
     if (password) {
       user.password = password;
