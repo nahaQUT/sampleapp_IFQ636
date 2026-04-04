@@ -1,9 +1,10 @@
-name: Habit Mate CI
+name: Backend CI
 
 on:
   push:
     branches:
       - main
+      - feature/ci-yml
 
 jobs:
   test:
@@ -33,8 +34,7 @@ jobs:
           echo "Secret 2 is: $JWT_SECRET"
           echo "Secret 3 is: $PORT"
 
-      - name: Stop Running Services in AWS
-        run: pm2 stop all
+      - run: pm2 stop all || true
 
       - name: Install Backend Dependencies
         working-directory: ./backend
@@ -43,11 +43,10 @@ jobs:
           yarn --version
           yarn install
 
-      - name: Install Frontend Dependencies and Build
+      - name: Install Frontend Dependencies
         working-directory: ./frontend
         run: |
-          df -h
-          sudo rm -rf ./build
+          rm -rf ./build
           yarn install
           yarn run build
 
@@ -60,16 +59,17 @@ jobs:
         run: npm test
 
       - name: Install Dependencies Using npm ci
+        working-directory: ./backend
         run: npm ci
 
-      - name: Create .env File and Add Secrets for Production in AWS
+      - name: Create .env File
+        working-directory: ./backend
         run: |
-          cd ./backend
           touch .env
           echo "${{ secrets.PROD }}" > .env
 
-      - name: Start Services in AWS
-        run: pm2 start all
+      - name: Start Services
+        run: pm2 start all || pm2 restart all
 
-      - name: Restart Services in AWS
+      - name: Restart Services
         run: pm2 restart all
