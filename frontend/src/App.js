@@ -7,7 +7,9 @@ import Tasks from './pages/Tasks';
 import CustomerDashboard from './pages/CustomerDashboard';
 import Cart from './pages/Cart';
 import CustomerOrders from './pages/CustomerOrders'
-
+import AdminDashboard from './pages/AdminDashboard';
+import AdminSuppliers from './pages/AdminSuppliers';
+import AdminOrders from './pages/AdminOrders';
 function App() {
   return (
     <Router>
@@ -20,6 +22,9 @@ function App() {
         <Route path="/CustomerDashboard" element={<CustomerDashboard />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/CustomerOrders" element={<CustomerOrders />} />
+        <Route path="/AdminDashboard" element={<AdminDashboard />} />
+        <Route path="/AdminSuppliers" element={<AdminSuppliers />} />
+        <Route path="/AdminOrders" element={<AdminOrders />} />
       </Routes>
     </Router>
   );
