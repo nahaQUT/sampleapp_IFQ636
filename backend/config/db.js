@@ -1,12 +1,12 @@
-// config/db.js
 const mongoose = require("mongoose");
+const dns = require("dns");
 
-// Set strictQuery explicitly to suppress the warning
-//mongoose.set('strictQuery', true);
+dns.setDefaultResultOrder("ipv4first");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);  // Remove deprecated options
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error.message);

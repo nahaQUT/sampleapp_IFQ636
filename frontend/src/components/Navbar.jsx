@@ -1,41 +1,37 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
   return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold">Your apps name</Link>
-      <div>
-        {user ? (
-          <>
-            <Link to="/tasks" className="mr-4">CRUD</Link>
-            <Link to="/profile" className="mr-4">Profile</Link>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="mr-4">Login</Link>
-            <Link
-              to="/register"
-              className="bg-green-500 px-4 py-2 rounded hover:bg-green-700"
-            >
-              Register
-            </Link>
-          </>
+    <nav style={{
+      backgroundColor: '#0F0E1A', padding: '15px 30px',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+    }}>
+      <h2 style={{ color: '#7C5CFC', margin: 0, cursor: 'pointer' }}
+        onClick={() => navigate('/dashboard')}>
+        🎬 Watchlist Manager
+      </h2>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <span style={{ color: 'white' }}>Hi, {user.name}</span>
+        {user.role === 'admin' && (
+          <button onClick={() => navigate('/admin')} style={{
+            backgroundColor: '#7C5CFC', color: 'white', border: 'none',
+            padding: '8px 16px', borderRadius: '6px', cursor: 'pointer'
+          }}>Admin Panel</button>
         )}
+        <button onClick={handleLogout} style={{
+          backgroundColor: '#EF4444', color: 'white', border: 'none',
+          padding: '8px 16px', borderRadius: '6px', cursor: 'pointer'
+        }}>Logout</button>
       </div>
     </nav>
   );
