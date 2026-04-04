@@ -1,14 +1,20 @@
-name: HabitMate CI
+name: Habit Mate CI
 
 on:
   push:
-    branches: ["*"]
+    branches:
+      - main
   pull_request:
-    branches: ["*"]
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [22]
 
     steps:
       - name: Checkout code
@@ -17,22 +23,58 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: ${{ matrix.node-version }}
+
+      - name: Print environment secrets
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PORT: ${{ secrets.PORT }}
+        run: |
+          echo "Secret 1 is: $MONGO_URI"
+          echo "Secret 2 is: $JWT_SECRET"
+          echo "Secret 3 is: $PORT"
+
+      - name: Stop running services
+        run: pm2 stop all
 
       - name: Install root dependencies
         run: npm install
 
       - name: Install backend dependencies
-        run: npm install --prefix backend
+        working-directory: ./backend
+        run: |
+          npm install --global yarn
+          yarn --version
+          yarn install
 
-      - name: Install frontend dependencies
-        run: npm install --prefix frontend
+      - name: Install frontend dependencies and build
+        working-directory: ./frontend
+        run: |
+          df -h
+          sudo rm -rf ./build
+          yarn install
+          yarn run build
 
       - name: Run backend tests
-        run: npm test --prefix backend
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PORT: ${{ secrets.PORT }}
+        working-directory: ./backend
+        run: npm test
 
-      - name: Run frontend tests
-        run: npm test --prefix frontend -- --watchAll=false
+      - name: Install dependencies using npm ci
+        run: npm ci
 
-      - name: Build frontend
-        run: npm run build --prefix frontend
+      - name: Create .env file for production
+        run: |
+          cd ./backend
+          touch .env
+          echo "${{ secrets.PROD }}" > .env
+
+      - name: Start services
+        run: pm2 start all
+
+      - name: Restart services
+        run: pm2 restart all
