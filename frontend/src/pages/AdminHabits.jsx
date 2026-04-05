@@ -32,7 +32,7 @@ const AdminHabits = () => {
         setLoading(true);
         setError('');
 
-        const response = await api.get('/api/admin/habits');
+        const response = await api.get('/admin/habits');
         setHabits(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load habits');
