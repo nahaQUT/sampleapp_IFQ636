@@ -1,24 +1,79 @@
+# Full Stack MERN Application
 
-**Assessment 1.2 (Total Marks **20**)**
+This is a basic full stack web application built using React (frontend), Node.js + Express (backend), and MongoDB (database).
 
-Assignment: **Software requirements analysis and design (**Full-Stack CRUD Application Development with DevOps Practices**)**
+---
+
+## Demo Credentials
+
+### Admin
+Email: giatest01@gmail.com  
+Password: Abcd_1234  
+
+### User
+Email: kas@gmail.com  
+Password: Abcd_1234  
+
+---
+
+## Tech Stack
+
+Frontend: React, Axios, React Router  
+Backend: Node.js, Express  
+Database: MongoDB (Mongoose)  
+Authentication: JWT  
+
+---
+
+## Project Structure
+
+project-root/
+│
+├── backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── .env
+│   └── server.js
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+└── README.md
+
+---
+
+## Setup Instructions
+
+### Clone the repository
+git clone (https://github.com/GimhaniS/sustainable_product_marketplaceIFN636.git)
+cd project-root
+
+---
+
+## Backend Setup
+
+cd backend  
+npm install  
+
+Create a .env file inside backend folder:
+
+MONGO_URI=mongodb+srv://admin:Abcd_1234@ifn636.xkxk7oh.mongodb.net/Ecomarket_DB?retryWrites=true&w=majority&appName=IFn636
+JWT_SECRET=2J8zqkP7VN6bxzg+Wy7DQZCA3Yx8mF3Bl0kch6HYtFs=
+PORT=5001 
+
 
 
 ---
 
-**Objective**
+## Frontend Setup
 
-For this assessment, you have already been assigned a project. Your task is to develop a system that implements CRUD (Create, Read, Update, Delete) operations based on the selected project. The system should include both a user panel and an admin panel. Depending on the nature of your chosen project, you may decide how many CRUD operations are required to support the functionality of the system. You have been provided with a starter project that includes user authentication using Node.js, React.js, and MongoDB, your should extend this application based on your assigned project requirements. Ensure that the implemented features are appropriate and meaningful for your selected project. Your project should include the following:
-In this assignment you will complete the following tasks:
+cd frontend  
+npm install  
 
-* **Basic Version Control using GitHub**
-* **Development, CI/CD Integration for Automated Deployment**
-* **Project report**
+Run frontend:
+npm start  
 
- 
----
-
-**GitHub link of the starter project: **[https://github.com/nahaQUT/sampleapp_IFQ636.git](https://github.com/nahaQUT/sampleapp_IFQ636.git)
-
----
 
