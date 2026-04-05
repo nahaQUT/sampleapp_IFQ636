@@ -18,6 +18,7 @@ const WatchlistDetail = () => {
     fetchWatchlist();
     fetchItems();
     fetchContents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchWatchlist = async () => {
