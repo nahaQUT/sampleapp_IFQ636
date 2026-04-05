@@ -35,7 +35,7 @@ const Profile = () => {
       setProfileError('');
 
       try {
-        const response = await axiosInstance.get('/api/auth/profile');
+        const response = await axiosInstance.get('/auth/profile');
 
         setProfileData({
           name: response.data.name || '',
@@ -62,7 +62,7 @@ const Profile = () => {
     setLoadingProfile(true);
 
     try {
-      const response = await axiosInstance.put('/api/auth/profile', profileData);
+      const response = await axiosInstance.put('/auth/profile', profileData);
       updateUser(response.data);
 
       setProfileData({
@@ -98,7 +98,7 @@ const Profile = () => {
     setLoadingPassword(true);
 
     try {
-      const response = await axiosInstance.put('/api/auth/profile', {
+      const response = await axiosInstance.put('/auth/profile', {
         password: passwordData.password,
       });
 

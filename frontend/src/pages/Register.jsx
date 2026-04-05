@@ -29,7 +29,7 @@ const Register = () => {
         password: formData.password,
       };
 
-      await axiosInstance.post('/api/auth/register', payload);
+      await axiosInstance.post('/auth/register', payload);
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');

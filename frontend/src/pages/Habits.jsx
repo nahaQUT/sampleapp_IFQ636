@@ -28,7 +28,7 @@ const Habits = () => {
     setLoadingHabits(true);
 
     try {
-      const response = await axiosInstance.get('/api/habits');
+      const response = await axiosInstance.get('/habits');
       setHabits(response.data || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch habits.');
@@ -39,7 +39,7 @@ const Habits = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axiosInstance.get('/api/categories');
+      const response = await axiosInstance.get('/categories');
       setCategories(response.data || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch categories.');
@@ -93,7 +93,7 @@ const Habits = () => {
     setSuccessMessage('');
 
     try {
-      await axiosInstance.delete(`/api/habits/${habit._id}`);
+      await axiosInstance.delete(`/habits/${habit._id}`);
       setHabits((prev) => prev.filter((item) => item._id !== habit._id));
       setSuccessMessage('Habit deleted successfully.');
     } catch (err) {
@@ -106,7 +106,7 @@ const Habits = () => {
     setSuccessMessage('');
 
     try {
-      const response = await axiosInstance.put(`/api/habits/${habit._id}/complete`, {
+      const response = await axiosInstance.put(`/habits/${habit._id}/complete`, {
         date: todayDate,
       });
 
@@ -126,13 +126,13 @@ const Habits = () => {
 
     try {
       if (editingHabit) {
-        const response = await axiosInstance.put(`/api/habits/${editingHabit._id}`, formData);
+        const response = await axiosInstance.put(`/habits/${editingHabit._id}`, formData);
         setHabits((prev) =>
           prev.map((item) => (item._id === editingHabit._id ? response.data : item))
         );
         setSuccessMessage('Habit updated successfully.');
       } else {
-        const response = await axiosInstance.post('/api/habits', formData);
+        const response = await axiosInstance.post('/habits', formData);
         setHabits((prev) => [response.data, ...prev]);
         setSuccessMessage('Habit created successfully.');
       }

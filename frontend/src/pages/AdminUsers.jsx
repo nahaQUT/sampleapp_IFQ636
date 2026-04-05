@@ -24,7 +24,7 @@ const AdminUsers = () => {
         setLoading(true);
         setError('');
 
-        const response = await api.get('/api/admin/users');
+        const response = await api.get('/admin/users');
         setUsers(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load users');

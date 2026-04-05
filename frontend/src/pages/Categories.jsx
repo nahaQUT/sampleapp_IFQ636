@@ -18,7 +18,7 @@ const Categories = () => {
     setLoadingCategories(true);
 
     try {
-      const response = await api.get('/api/categories');
+      const response = await api.get('/categories');
       setCategories(response.data || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch categories.');
@@ -54,7 +54,7 @@ const Categories = () => {
     setSuccessMessage('');
 
     try {
-      await api.delete(`/api/categories/${category._id}`);
+      await api.delete(`/categories/${category._id}`);
       setCategories((prev) => prev.filter((item) => item._id !== category._id));
       setSuccessMessage('Category deleted successfully.');
     } catch (err) {
@@ -72,13 +72,13 @@ const Categories = () => {
 
     try {
       if (editingCategory) {
-        const response = await api.put(`/api/categories/${editingCategory._id}`, formData);
+        const response = await api.put(`/categories/${editingCategory._id}`, formData);
         setCategories((prev) =>
           prev.map((item) => (item._id === editingCategory._id ? response.data : item))
         );
         setSuccessMessage('Category updated successfully.');
       } else {
-        const response = await api.post('/api/categories', formData);
+        const response = await api.post('/categories', formData);
         setCategories((prev) => [response.data, ...prev]);
         setSuccessMessage('Category created successfully.');
       }

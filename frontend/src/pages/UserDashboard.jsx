@@ -28,7 +28,7 @@ const UserDashboard = () => {
       setError('');
 
       try {
-        const response = await axiosInstance.get('/api/habits');
+        const response = await axiosInstance.get('/habits');
         setHabits(response.data || []);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load dashboard data.');
@@ -72,9 +72,7 @@ const UserDashboard = () => {
     return streak;
   }, [habits]);
 
-  const completionRate = habits.length
-    ? Math.round((completedToday / habits.length) * 100)
-    : 0;
+  const completionRate = habits.length ? Math.round((completedToday / habits.length) * 100) : 0;
 
   const recentHabits = habits.slice(0, 5);
 
@@ -191,7 +189,11 @@ const UserDashboard = () => {
                           ? `Weekly: ${habit.daysOfWeek.join(', ')}`
                           : 'Daily habit'}
                       </p>
-                      <p className={`mt-1 text-sm ${completed ? 'text-emerald-700' : 'text-slate-500'}`}>
+                      <p
+                        className={`mt-1 text-sm ${
+                          completed ? 'text-emerald-700' : 'text-slate-500'
+                        }`}
+                      >
                         {completed ? 'Completed today' : 'Pending today'}
                       </p>
                     </div>
