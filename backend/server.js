@@ -15,6 +15,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
 
 app.use('/api/products', productRoutes);
+app.use('/api/categories', require('./routes/categoryRoutes'));
 // Export the app object for testing
 if (require.main === module) {
     connectDB();

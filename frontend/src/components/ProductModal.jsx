@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 
 const MATERIAL_CATEGORIES = [
-  { id: "eco_friendly", label: "🌿 Eco Friendly Material" },
-  { id: "recycled", label: "♻️ Recycled Products" },
-  { id: "sustainable_fashion", label: "👗 Sustainable Fashion" },
-  { id: "plastic_free", label: "🚫 Plastic Free Products" },
-  { id: "organic", label: "🌱 Organic Products" },
+  { id: "eco_friendly", label: "Eco Friendly Material" },
+  { id: "recycled", label: "Recycled Products" },
+  { id: "sustainable_fashion", label: "Sustainable Fashion" },
+  { id: "plastic_free", label: "Plastic Free Products" },
+  { id: "organic", label: "Organic Products" },
 ];
 
 const COLOR_OPTIONS = [
