@@ -1,38 +1,39 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: #F6F4FF;
+  color: #110E24;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button {
+  transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-.App-link {
-  color: #61dafb;
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #7C5CFC !important;
+  box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.15);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F6F4FF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7C5CFC;
+  border-radius: 3px;
 }
