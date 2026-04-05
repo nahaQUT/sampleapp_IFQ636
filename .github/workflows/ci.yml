@@ -68,7 +68,7 @@ jobs:
       working-directory: ./backend
       run: npm test
 
-s
+
     - run: npm ci
     - run: | 
         cd ./backend
