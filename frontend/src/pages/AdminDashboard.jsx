@@ -38,8 +38,8 @@ const AdminDashboard = () => {
         setError('');
 
         const [usersResponse, habitsResponse] = await Promise.all([
-          api.get('/api/admin/users'),
-          api.get('/api/admin/habits'),
+          api.get('/admin/users'),
+          api.get('/admin/habits'),
         ]);
 
         setUsers(Array.isArray(usersResponse.data) ? usersResponse.data : []);
@@ -76,9 +76,10 @@ const AdminDashboard = () => {
       return false;
     }).length;
 
-    const completedToday = habits.filter((habit) =>
-      Array.isArray(habit.completionHistory) &&
-      habit.completionHistory.some((item) => item.date === todayDate)
+    const completedToday = habits.filter(
+      (habit) =>
+        Array.isArray(habit.completionHistory) &&
+        habit.completionHistory.some((item) => item.date === todayDate)
     ).length;
 
     return {
@@ -174,10 +175,7 @@ const AdminDashboard = () => {
                 <p className="text-slate-500">No users found.</p>
               ) : (
                 recentUsers.map((user) => (
-                  <div
-                    key={user._id}
-                    className="rounded-2xl bg-slate-50 px-5 py-4"
-                  >
+                  <div key={user._id} className="rounded-2xl bg-slate-50 px-5 py-4">
                     <p className="text-lg font-semibold text-slate-900">{user.name}</p>
                     <p className="mt-1 text-sm text-slate-500">{user.email}</p>
                     <p className="mt-2 text-sm text-slate-500">
@@ -201,17 +199,10 @@ const AdminDashboard = () => {
                 <p className="text-slate-500">No habits found.</p>
               ) : (
                 recentHabits.map((habit) => (
-                  <div
-                    key={habit._id}
-                    className="rounded-2xl bg-slate-50 px-5 py-4"
-                  >
+                  <div key={habit._id} className="rounded-2xl bg-slate-50 px-5 py-4">
                     <p className="text-lg font-semibold text-slate-900">{habit.title}</p>
-                    <p className="mt-1 text-sm text-slate-500">
-                      {habit.user?.name || '-'}
-                    </p>
-                    <p className="mt-1 text-sm text-slate-500">
-                      {habit.category?.name || '-'}
-                    </p>
+                    <p className="mt-1 text-sm text-slate-500">{habit.user?.name || '-'}</p>
+                    <p className="mt-1 text-sm text-slate-500">{habit.category?.name || '-'}</p>
                   </div>
                 ))
               )}
