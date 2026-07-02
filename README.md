@@ -1,7 +1,7 @@
 # ParkEase — Parking Slot Booking System
 
-**IFQ636 Assessment 1.2 — Full-Stack CRUD Application with DevOps Practices**
-**Student:** Naderian123
+**IFQ636 Assignment 2 — Software Development, Testing and Configuration**  
+**Team Members:** Kevin Naderian, Heer Pathrishi, Ananth Naidu  
 **GitHub Repo:** [kevlaspam/parkingapp_IFQ636](https://github.com/kevlaspam/parkingapp_IFQ636)
 
 ---
@@ -9,6 +9,28 @@
 ## Overview
 
 **ParkEase** is a full-stack mobile-first web application that allows university students and staff to browse, book, manage, and cancel parking slots in real time. The system includes a user-facing mobile UI and a protected admin panel, backed by a RESTful API and a cloud-hosted MongoDB database.
+
+---
+
+## Recent enhancements completed during Assignment 2 include:
+
+- Booking summary screen before payment confirmation.
+- Logout confirmation bottom sheet for improved mobile usability.
+- Improved GitHub Actions CI/CD workflow.
+- Automated backend testing using Mocha, Chai and Sinon.
+- Enhanced deployment reliability using PM2.
+- Repository, Strategy, Observer and Factory design patterns.
+- Improved documentation and collaborative Git workflow.
+
+---
+
+## Team Collaboration
+
+Development was managed using GitHub feature branches, pull requests and code reviews.
+
+Each feature was implemented on an independent branch before being merged into the main branch. GitHub Actions automatically validated each successful merge through automated builds, backend testing and deployment to AWS EC2.
+
+Merge conflicts encountered during development were resolved through Git's standard merge workflow before production deployment.
 
 ---
 
@@ -52,6 +74,8 @@ This workflow helps maintain a stable production branch while enabling concurren
 - ✅ **Reschedule a Booking** — Update start and end time on an existing booking (Update)
 - ✅ **Cancel a Booking** — Delete a reservation, which frees up the slot (Delete)
 - ✅ **Edit Profile** — Update name, email, university, and address
+- ✅ Booking summary prior to payment confirmation
+- ✅ Logout confirmation bottom sheet
 
 ### Admin Features
 - ✅ **View all parking slots** — See every slot in the system
@@ -60,17 +84,7 @@ This workflow helps maintain a stable production branch while enabling concurren
 - ✅ **Delete slots** — Remove slots from the system
 - ✅ **View all bookings** — Admin-level overview of all user bookings
 - ✅ **Database seeder** — Backend auto-seeds 10 parking slots on startup if the DB is empty
-
----
-
-## Recent Improvements
-
-Recent enhancements include:
-
-- Added a booking summary screen before payment confirmation.
-- Added a logout confirmation bottom sheet to reduce accidental logouts on mobile devices.
-- Improved GitHub Actions workflow reliability through workflow permissions, concurrency control and execution timeouts.
-- Enhanced deployment reliability using automated GitHub Actions and PM2 process management.
+- ✅ Logout confirmation bottom sheet
 
 ---
 
@@ -160,7 +174,7 @@ Every push to `main` triggers the GitHub Actions workflow (`.github/workflows/ci
 
 1. Checking out the repository.
 2. Installing backend dependencies.
-3. Executing backend Mocha/Chai unit tests.
+3. Executing backend Mocha, Chai and Sinon tests.
 4. Building the React frontend.
 5. Uploading the frontend build as an artifact.
 6. Connecting securely to the AWS EC2 instance using SSH.
@@ -168,20 +182,6 @@ Every push to `main` triggers the GitHub Actions workflow (`.github/workflows/ci
 8. Updating environment variables.
 9. Deploying the latest frontend build.
 10. Restarting PM2 services.
-
-
-### Pipeline Run History
-
-| Run | Commit | Status | Description |
-|-----|--------|--------|-------------|
-| #8 | `a213ed2` | ✅ | feat: complete UI redesign — dark mobile theme with violet accent |
-| #7 | `f1401e0` | ✅ | feat: add automatic parking slots database seeder on startup |
-| #6 | `afb5649` | ✅ | fix: restart both backend and frontend PM2 services in pipeline |
-| #5 | `e8d396c` | ✅ | fix: make API baseURL dynamic based on host name |
-| #4 | `6f56872` | ✅ | fix: run PM2 via local project node_modules using npx prefix |
-| #3 | `4b081df` | ✅ | fix: remove unused import and set CI=false to allow build warnings |
-| #2 | `f76f3d8` | ✅ | perf: prevent React build memory crashes on AWS EC2 micro instances |
-| #1 | `da2ba97` | ✅ | feat: remove figma wireframes and enable production UI routes |
 
 ---
 
@@ -233,20 +233,7 @@ pm2 list
 
 Live URL: `http://<EC2-PUBLIC-IP>:3000`
 
----
-
-## Assessment Checklist
-
-- [x] Full-Stack CRUD operations (Create, Read, Update, Delete)
-- [x] User authentication (JWT)
-- [x] User panel (browse, book, manage reservations)
-- [x] Admin panel (manage slots and bookings)
-- [x] GitHub version control with meaningful commit history
-- [x] CI/CD pipeline via GitHub Actions
-- [x] Automated deployment to AWS EC2
-- [x] Unit/integration tests in `backend/tests/`
-- [x] Project documentation (this README)
 
 ## License
 
-This project was developed for IFQ636 Software Lifecycle Measurement at Queensland University of Technology (QUT) and is intended for educational purposes.
+This project was developed for IFQ636 Software Lifecycle Management at Queensland University of Technology (QUT) and is intended for educational purposes.
