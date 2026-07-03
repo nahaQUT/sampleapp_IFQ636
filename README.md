@@ -6,6 +6,17 @@
 
 ---
 
+## Demo Accounts Login Credentials
+
+The following accounts can be used to access the application for demonstration and testing purposes.
+
+| Role | Username | Password | Access |
+|------|----------|----------|--------|
+| User | `student` | `student` | Browse parking slots, create, update and cancel bookings, manage profile |
+| Administrator | `admin` | `admin` | Full administrative access, including parking slot management and viewing all bookings |
+
+---
+
 ## Overview
 
 **ParkEase** is a full-stack mobile-first web application that allows university students and staff to browse, book, manage, and cancel parking slots in real time. The system includes a user-facing mobile UI and a protected admin panel, backed by a RESTful API and a cloud-hosted MongoDB database.
@@ -231,7 +242,7 @@ pm2 list
 # parking-frontend → serve -s build on port 3000
 ```
 
-Live URL: `http://<EC2-PUBLIC-IP>:3000`
+Live URL: `http://3.25.234.103:3000`
 
 
 ## License
